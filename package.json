@@ -1,6 +1,6 @@
 {
   "name": "describe-function",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Extracts a private function for BDD unit testing",
   "main": "describe-function.js",
   "scripts": {
