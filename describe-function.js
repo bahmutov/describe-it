@@ -2,11 +2,15 @@ var log = require('debug')('describe');
 require = require('really-need');
 
 var signatureToName = require('./src/utils').signatureToName;
+var isVariable = require('./src/utils').isVariable;
 
 function desribeFunction(filename, functionSignature, cb) {
-  var fullSig = 'function ' + functionSignature;
+  var isVar = isVariable(functionSignature);
+
+  var fullSig = isVar ? functionSignature : 'function ' + functionSignature;
   var functionName = signatureToName(functionSignature);
   log('describing function "%s" sig "%s" in "%s"', functionName, functionSignature, filename);
+  log('full signature to look for "%s"', fullSig);
 
   var __exports = {};
 
@@ -25,12 +29,24 @@ function desribeFunction(filename, functionSignature, cb) {
           changed = source.replace(fullSig,
             assignment + fullSig);
         } else {
-          /*
-          Assumption: function declaration
-          function foo(x) { ... }
-          */
-          changed = source.replace(fullSig,
-            assignment + functionName + ';\n' + fullSig);
+          if (isVar) {
+            /* assumption: var declaration and assignment in 1 statement
+              might go over several lines!
+              var foo = ...;
+            */
+            log('found variable "%s"', fullSig);
+            var assignmentEndsAt = source.indexOf(';', at);
+            log('full assignment "%s"', source.substr(at, assignmentEndsAt - at + 1));
+            changed = source.substr(0, assignmentEndsAt + 1) + assignment + functionName + ';' +
+              source.substr(assignmentEndsAt + 1);
+          } else {
+            /*
+            Assumption: function declaration
+            function foo(x) { ... }
+            */
+            changed = source.replace(fullSig,
+              assignment + functionName + ';\n' + fullSig);
+          }
         }
         log(changed);
         return changed;

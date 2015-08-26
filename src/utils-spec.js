@@ -12,4 +12,9 @@ describe('signature to name', function () {
     var name = toName('double(x)');
     la(name === 'double');
   });
+
+  it('extracts variable name', function () {
+    var name = toName('var foo');
+    la(name === 'foo', 'extracted variable', name);
+  });
 });
