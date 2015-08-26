@@ -116,7 +116,10 @@ describe(__dirname + '/variable-foo', 'var foo', function (getFoo) {
 
 Nice!
 
-**Note for Jasmine users**
+You can see this in action in the following unit test [ggit/changed-files-spec.js][5] that
+tests pipeline of functions `stdoutToGrouped` in the file [ggit/changed-files.js][6].
+
+## Note for Jasmine users
 
 I am testing this library using [Mocha](http://mochajs.org/), which I [find much nicer](picking)
 to work with.
@@ -154,6 +157,8 @@ describeFunction(..., function (getFn) {
 [2]: https://github.com/jasmine/jasmine/pull/908
 [3]: http://glebbahmutov.com/blog/picking-javascript-testing-framework/
 [4]: http://glebbahmutov.com/blog/imperative-to-compose-example/
+[5]: https://github.com/bahmutov/ggit/blob/master/spec/changed-files-spec.js 
+[6]: https://github.com/bahmutov/ggit/blob/master/src/changed-files.js
 
 ### Small print
 
