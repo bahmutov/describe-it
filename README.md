@@ -65,7 +65,39 @@ describeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
 });
 ```
 
+**Note for Jasmine users**
+
+Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it. 
+Because **describe-function* tries to behave nicely and clean up after itself, you might NOT
+have the function inside *your own afterEach blocks*.
+
+```js
+describeFunction(..., function (getFn) {
+    it(...);
+    afterEach(function () {
+        var fn = getFn(); 
+        // Nope, fn is undefined by this time
+    });
+});
+```
+
+As a work around, keep the reference to the function around
+
+```js
+describeFunction(..., function (getFn) {
+    var fn;
+    beforeEach(function () {
+        fn = getFn();
+    });
+    it(...);
+    afterEach(function () {
+        // use fn
+    });
+});
+```
+
 [1]: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/
+[2]: https://github.com/jasmine/jasmine/pull/908
 
 ### Small print
 

@@ -19,7 +19,7 @@ function desribeFunction(filename, functionSignature, cb) {
   });
 
   function returnsFn() {
-    return global.__exports.fn;
+    return global.__exports && global.__exports.fn;
   }
 
   describe(functionSignature, cb.bind(null, returnsFn));

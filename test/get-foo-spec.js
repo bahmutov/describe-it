@@ -33,4 +33,8 @@ desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
   it('returns "foo"', function () {
     la(getFoo() === 'foo');
   });
+
+  afterEach(function () {
+    la(getFn() === getFoo);
+  });
 });
