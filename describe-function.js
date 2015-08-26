@@ -33,6 +33,8 @@ function desribeFunction(filename, functionSignature, cb) {
         log(changed);
         return changed;
       }
+
+      return source;
     }
   };
 
