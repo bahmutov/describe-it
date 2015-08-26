@@ -1,6 +1,6 @@
 # describe-it
 
-> Extracts a private function for BDD unit testing
+> Extracts a private function | expression | variable for BDD unit testing
 
 [![describe-it-icon] [describe-it-icon]][describe-it-icon]
 
