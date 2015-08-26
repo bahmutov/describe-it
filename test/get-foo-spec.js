@@ -15,3 +15,22 @@ desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
     la(getFoo() === 'foo');
   });
 });
+
+desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+  it('returns "foo"', function () {
+    var getFoo = getFn();
+    la(getFoo() === 'foo');
+  });
+});
+
+desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+  var getFoo;
+
+  beforeEach(function () {
+    getFoo = getFn();
+  });
+
+  it('returns "foo"', function () {
+    la(getFoo() === 'foo');
+  });
+});

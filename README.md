@@ -3,9 +3,62 @@
 > Extracts a private function for BDD unit testing
 
 [![describe-function-icon] [describe-function-icon]][describe-function-icon]
+
 [![Build status][describe-function-ci-image] ][describe-function-ci-url]
 [![dependencies][describe-function-dependencies-image] ][describe-function-dependencies-url]
 [![devdependencies][describe-function-devdependencies-image] ][describe-function-devdependencies-url]
+
+## Example
+
+Imagine you want to unit test function `getFoo` from file `get-foo.js`
+
+```js
+// get-foo.js
+(function reallyPrivate() {
+  function getFoo() {
+    return 'foo';
+  }
+}());
+```
+
+How would you do this? The function `getFoo` is private to the closure, not exported. Impossible
+without extra processing step, like [this one][1]? Nope. Simple to do via *describe-function*, built
+on top of [really-need](https://github.com/bahmutov/really-need).
+
+    npm install --save-dev describe-function
+
+```js
+// get-foo-spec.js
+// assumes BDD like Mocha
+var desribeFunction = require('describe-function');
+desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+  it('returns "foo"', function () {
+    var getFoo = getFn();
+    console.assert(getFoo() === 'foo');
+  });
+});
+```
+
+If you have several unit tests, just grab the function before each
+
+```js
+// get-foo-spec.js
+var desribeFunction = require('describe-function');
+desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+  var getFoo;
+  beforeEach(function () {
+    getFoo = getFn();
+  });
+  it('is a function', function () {
+    console.assert(typeof getFoo === 'function');
+  });
+  it('returns "foo"', function () {
+    console.assert(getFoo() === 'foo');
+  });
+});
+```
+
+[1]: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/
 
 ### Small print
 
