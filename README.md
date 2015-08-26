@@ -65,6 +65,32 @@ describeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
 });
 ```
 
+## Unit test any named function
+
+You can extract and unit test even named functional expressions, commonly used as callbacks.
+For example, we can unit test the function `double` used as an iterator callback in the code below
+
+```js
+// double-numbers.js
+function doubleNumbers(numbers) {
+  return numbers.map(function double(x) {
+    return x * 2;
+  });
+}
+```
+
+```js
+// double-numbers-spec.js
+describeFunction(__dirname + '/double-numbers', 'double(x)', function (getDouble) {
+  it('doubles numbers', function () {
+    var double = getDouble();
+    la(double(5) === 10);
+  });
+});
+```
+
+Nice!
+
 **Note for Jasmine users**
 
 Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it. 

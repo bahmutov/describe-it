@@ -1,10 +1,10 @@
 {
   "name": "describe-function",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Extracts a private function for BDD unit testing",
   "main": "describe-function.js",
   "scripts": {
-    "test": "mocha test/*-spec.js"
+    "test": "mocha src/*-spec.js test/*-spec.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   "homepage": "https://github.com/bahmutov/describe-function",
   "dependencies": {
     "check-more-types": "1.8.2",
+    "debug": "2.2.0",
     "lazy-ass": "0.5.8",
     "really-need": "1.6.3"
   },
