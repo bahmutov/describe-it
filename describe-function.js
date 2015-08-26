@@ -14,6 +14,8 @@ function desribeFunction(filename, functionSignature, cb) {
     bust: true,
     pre: function (source, filename) {
       var at = source.indexOf(fullSig), changed;
+      var assignment = 'global.__exports.' + functionName + ' = ';
+
       if (at >= 0) {
         if (source[at - 1] === '(') {
           /*
@@ -21,14 +23,14 @@ function desribeFunction(filename, functionSignature, cb) {
             [].map(function foo(x) { ... })
           */
           changed = source.replace(fullSig,
-            'global.__exports.' + functionName + ' = ' + fullSig);
+            assignment + fullSig);
         } else {
           /*
           Assumption: function declaration
           function foo(x) { ... }
           */
           changed = source.replace(fullSig,
-            'global.__exports.' + functionName + ' = ' + functionName + ';\n' + fullSig);
+            assignment + functionName + ';\n' + fullSig);
         }
         log(changed);
         return changed;
