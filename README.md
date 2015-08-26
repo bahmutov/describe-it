@@ -8,6 +8,13 @@
 [![dependencies][describe-function-dependencies-image] ][describe-function-dependencies-url]
 [![devdependencies][describe-function-devdependencies-image] ][describe-function-devdependencies-url]
 
+## Api
+
+    describeFunction(sourceFilename, functionSignature, testCallbacks);
+    // sourceFilename - full CommonJS filename
+    // functionSignature - foo(), add(a, b), etc to find the function
+    // testCallbacks - BDD test callback, like in "describe"
+
 ## Example
 
 Imagine you want to unit test function `getFoo` from file `get-foo.js`
