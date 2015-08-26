@@ -1,14 +1,14 @@
 {
-  "name": "describe-function",
+  "name": "describe-it",
   "version": "1.2.0",
-  "description": "Extracts a private function for BDD unit testing",
-  "main": "describe-function.js",
+  "description": "Extracts a private function / variable for BDD unit testing",
+  "main": "describe-it.js",
   "scripts": {
     "test": "mocha src/*-spec.js test/*-spec.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bahmutov/describe-function.git"
+    "url": "https://github.com/bahmutov/describe-it.git"
   },
   "keywords": [
     "bdd",
@@ -25,9 +25,9 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bahmutov/describe-function/issues"
+    "url": "https://github.com/bahmutov/describe-it/issues"
   },
-  "homepage": "https://github.com/bahmutov/describe-function",
+  "homepage": "https://github.com/bahmutov/describe-it",
   "dependencies": {
     "check-more-types": "1.8.2",
     "debug": "2.2.0",

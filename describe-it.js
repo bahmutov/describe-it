@@ -6,7 +6,7 @@ require = require('really-need');
 var signatureToName = require('./src/utils').signatureToName;
 var isVariable = require('./src/utils').isVariable;
 
-function desribeFunction(filename, functionSignature, cb) {
+function describeIt(filename, functionSignature, cb) {
   var isVar = isVariable(functionSignature);
 
   var fullSig = isVar ? functionSignature : 'function ' + functionSignature;
@@ -73,7 +73,7 @@ function desribeFunction(filename, functionSignature, cb) {
       return global.__exports && global.__exports[functionName];
     }
 
-    log('executing describeFunction callback');
+    log('executing describeIt callback');
     cb(returnsFn);
 
     after(function () {
@@ -85,4 +85,4 @@ function desribeFunction(filename, functionSignature, cb) {
 
 }
 
-module.exports = desribeFunction;
+module.exports = describeIt;

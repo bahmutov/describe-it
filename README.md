@@ -1,18 +1,18 @@
-# describe-function
+# describe-it
 
 > Extracts a private function for BDD unit testing
 
-[![describe-function-icon] [describe-function-icon]][describe-function-icon]
+[![describe-it-icon] [describe-it-icon]][describe-it-icon]
 
-[![Build status][describe-function-ci-image] ][describe-function-ci-url]
-[![dependencies][describe-function-dependencies-image] ][describe-function-dependencies-url]
-[![devdependencies][describe-function-devdependencies-image] ][describe-function-devdependencies-url]
+[![Build status][describe-it-ci-image] ][describe-it-ci-url]
+[![dependencies][describe-it-dependencies-image] ][describe-it-dependencies-url]
+[![devdependencies][describe-it-devdependencies-image] ][describe-it-devdependencies-url]
 
 ## Api
 
-    describeFunction(sourceFilename, functionSignature, testCallbacks);
+    describeIt(sourceFilename, functionSignature, testCallbacks);
     // sourceFilename - full CommonJS filename
-    // functionSignature - foo(), add(a, b), etc to find the function
+    // functionSignature - foo(), add(a, b), etc to find the function | var name = ...
     // testCallbacks - BDD test callback, like in "describe"
 
 ## Example
@@ -29,16 +29,16 @@ Imagine you want to unit test function `getFoo` from file `get-foo.js`
 ```
 
 How would you do this? The function `getFoo` is private to the closure, not exported. Impossible
-without extra processing step, like [this one][1]? Nope. Simple to do via *describe-function*, built
+without extra processing step, like [this one][1]? Nope. Simple to do via *describe-it*, built
 on top of [really-need](https://github.com/bahmutov/really-need).
 
-    npm install --save-dev describe-function
+    npm install --save-dev describe-it
 
 ```js
 // get-foo-spec.js
 // assumes BDD like Mocha
-var describeFunction = require('describe-function');
-describeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+var describeIt = require('describe-it');
+describeIt(__dirname + '/foo.js', 'getFoo()', function (getFn) {
   it('returns "foo"', function () {
     var getFoo = getFn();
     console.assert(getFoo() === 'foo');
@@ -50,8 +50,8 @@ If you have several unit tests, just grab the function before each
 
 ```js
 // get-foo-spec.js
-var describeFunction = require('describe-function');
-describeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+var describeIt = require('describe-it');
+describeIt(__dirname + '/foo.js', 'getFoo()', function (getFn) {
   var getFoo;
   beforeEach(function () {
     getFoo = getFn();
@@ -81,7 +81,7 @@ function doubleNumbers(numbers) {
 
 ```js
 // double-numbers-spec.js
-describeFunction(__dirname + '/double-numbers', 'double(x)', function (getDouble) {
+describeIt(__dirname + '/double-numbers', 'double(x)', function (getDouble) {
   before('it is executed at least once', function () {
     var doubleThem = require('./double-numbers');
     doubleThem([1, 2]);
@@ -106,7 +106,7 @@ Using this library we can extract variables too.
 // variable-foo.js
 var foo = 'foo';
 // variable-foo-spec.js
-var describe = require('describe-function');
+var describe = require('describe-it');
 describe(__dirname + '/variable-foo', 'var foo', function (getFoo) {
   it('has value "foo"', function () {
     la(getFoo() === "foo");
@@ -125,11 +125,11 @@ I am testing this library using [Mocha](http://mochajs.org/), which I [find much
 to work with.
 
 Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it. 
-Because **describe-function** tries to behave nicely and clean up after itself, you might NOT
+Because **describe-it** tries to behave nicely and clean up after itself, you might NOT
 have the function inside *your own afterEach blocks*.
 
 ```js
-describeFunction(..., function (getFn) {
+describeIt(..., function (getFn) {
     it(...);
     afterEach(function () {
         var fn = getFn(); 
@@ -141,7 +141,7 @@ describeFunction(..., function (getFn) {
 As a work around, keep the reference to the function around
 
 ```js
-describeFunction(..., function (getFn) {
+describeIt(..., function (getFn) {
     var fn;
     beforeEach(function () {
         fn = getFn();
@@ -173,7 +173,7 @@ License: MIT - do anything with the code, but don't blame me if it does not work
 Spread the word: tweet, star on github, etc.
 
 Support: if you find any problems with this module, email / tweet /
-[open issue](https://github.com/bahmutov/describe-function/issues) on Github
+[open issue](https://github.com/bahmutov/describe-it/issues) on Github
 
 ## MIT License
 
@@ -200,11 +200,11 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-[describe-function-icon]: https://nodei.co/npm/describe-function.png?downloads=true
-[describe-function-url]: https://npmjs.org/package/describe-function
-[describe-function-ci-image]: https://travis-ci.org/bahmutov/describe-function.svg?branch=master
-[describe-function-ci-url]: https://travis-ci.org/bahmutov/describe-function
-[describe-function-dependencies-image]: https://david-dm.org/bahmutov/describe-function.svg
-[describe-function-dependencies-url]: https://david-dm.org/bahmutov/describe-function
-[describe-function-devdependencies-image]: https://david-dm.org/bahmutov/describe-function/dev-status.svg
-[describe-function-devdependencies-url]: https://david-dm.org/bahmutov/describe-function#info=devDependencies
+[describe-it-icon]: https://nodei.co/npm/describe-it.png?downloads=true
+[describe-it-url]: https://npmjs.org/package/describe-it
+[describe-it-ci-image]: https://travis-ci.org/bahmutov/describe-it.svg?branch=master
+[describe-it-ci-url]: https://travis-ci.org/bahmutov/describe-it
+[describe-it-dependencies-image]: https://david-dm.org/bahmutov/describe-it.svg
+[describe-it-dependencies-url]: https://david-dm.org/bahmutov/describe-it
+[describe-it-devdependencies-image]: https://david-dm.org/bahmutov/describe-it/dev-status.svg
+[describe-it-devdependencies-url]: https://david-dm.org/bahmutov/describe-it#info=devDependencies
