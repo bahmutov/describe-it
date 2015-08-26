@@ -82,6 +82,10 @@ function doubleNumbers(numbers) {
 ```js
 // double-numbers-spec.js
 describeFunction(__dirname + '/double-numbers', 'double(x)', function (getDouble) {
+  before('it is executed at least once', function () {
+    var doubleThem = require('./double-numbers');
+    doubleThem([1, 2]);
+  });
   it('doubles numbers', function () {
     var double = getDouble();
     la(double(5) === 10);
@@ -89,9 +93,33 @@ describeFunction(__dirname + '/double-numbers', 'double(x)', function (getDouble
 });
 ```
 
+Note that because our functional expression is deep inside the code, we **must execute the code at least once**
+before the function `double` gets assigned.
+
+## Unit test any assigned variable
+
+Often I create code or values instead of having functional expressions (imperative style).
+For example, instead of writing a function myself, I would [create a function using composition][4].
+Using this library we can extract variables too.
+
+```js
+// variable-foo.js
+var foo = 'foo';
+// variable-foo-spec.js
+var describe = require('describe-function');
+describe(__dirname + '/variable-foo', 'var foo', function (getFoo) {
+  it('has value "foo"', function () {
+    la(getFoo() === "foo");
+  });
+});
+```
+
 Nice!
 
 **Note for Jasmine users**
+
+I am testing this library using [Mocha](http://mochajs.org/), which I [find much nicer](picking)
+to work with.
 
 Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it. 
 Because **describe-function** tries to behave nicely and clean up after itself, you might NOT
@@ -124,6 +152,8 @@ describeFunction(..., function (getFn) {
 
 [1]: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/
 [2]: https://github.com/jasmine/jasmine/pull/908
+[3]: http://glebbahmutov.com/blog/picking-javascript-testing-framework/
+[4]: http://glebbahmutov.com/blog/imperative-to-compose-example/
 
 ### Small print
 

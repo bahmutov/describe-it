@@ -1,4 +1,6 @@
 var log = require('debug')('describe');
+var logChanged = require('debug')('describe-changed');
+
 require = require('really-need');
 
 var signatureToName = require('./src/utils').signatureToName;
@@ -12,8 +14,6 @@ function desribeFunction(filename, functionSignature, cb) {
   log('describing function "%s" sig "%s" in "%s"', functionName, functionSignature, filename);
   log('full signature to look for "%s"', fullSig);
 
-  var __exports = {};
-
   var options = {
     bust: true,
     pre: function (source, filename) {
@@ -26,6 +26,7 @@ function desribeFunction(filename, functionSignature, cb) {
           Assumption: functional expression like
             [].map(function foo(x) { ... })
           */
+          log('found functional expression "%s"', fullSig);
           changed = source.replace(fullSig,
             assignment + fullSig);
         } else {
@@ -44,11 +45,12 @@ function desribeFunction(filename, functionSignature, cb) {
             Assumption: function declaration
             function foo(x) { ... }
             */
+            log('found function declaration "%s"', fullSig);
             changed = source.replace(fullSig,
               assignment + functionName + ';\n' + fullSig);
           }
         }
-        log(changed);
+        logChanged(changed);
         return changed;
       }
 
@@ -56,20 +58,31 @@ function desribeFunction(filename, functionSignature, cb) {
     }
   };
 
-  beforeEach(function () {
-    global.__exports = __exports;
-    require(filename, options);
+  describe(functionSignature, function () {
+
+    var __exports = {};
+
+    before(function () {
+      global.__exports = __exports;
+      log('beforeEach with __exports =', __exports);
+      require(filename, options);
+    });
+
+    function returnsFn() {
+      log('returning described value, __exports keys', Object.keys(global.__exports), 'function name', functionName);
+      return global.__exports && global.__exports[functionName];
+    }
+
+    log('executing describeFunction callback');
+    cb(returnsFn);
+
+    after(function () {
+      log('deleting __exports object', global.__exports);
+      delete global.__exports;
+    });
+
   });
 
-  function returnsFn() {
-    return global.__exports && global.__exports[functionName];
-  }
-
-  describe(functionSignature, cb.bind(null, returnsFn));
-
-  afterEach(function () {
-    delete global.__exports;
-  });
 }
 
 module.exports = desribeFunction;

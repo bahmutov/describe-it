@@ -12,7 +12,13 @@ describe('double numbers', function () {
 });
 
 describeFunction(__dirname + '/double-numbers', 'double(x)', function (getDouble) {
+  before('it is executed at least once', function () {
+    var doubleThem = require('./double-numbers');
+    doubleThem([1, 2]);
+  });
+
   it('was extracted', function () {
+    console.log('in "was extracted" test');
     var double = getDouble();
     la(typeof double === 'function');
   });
