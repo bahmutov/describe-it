@@ -10,9 +10,10 @@
 
 ## Api
 
-    describeIt(sourceFilename, functionSignature, testCallbacks);
+    describeIt(sourceFilename, functionSignature, useBeforeEach, testCallbacks);
     // sourceFilename - full CommonJS filename
     // functionSignature - foo(), add(a, b), etc to find the function | var name = ...
+    // useBeforeEach - optional, boolean - use beforeEach when setting up (otherwise by default using before)
     // testCallbacks - BDD test callback, like in "describe"
 
 ## Example
@@ -159,6 +160,13 @@ describeIt(..., function (getFn) {
 [4]: http://glebbahmutov.com/blog/imperative-to-compose-example/
 [5]: https://github.com/bahmutov/ggit/blob/master/spec/changed-files-spec.js 
 [6]: https://github.com/bahmutov/ggit/blob/master/src/changed-files.js
+
+## For devs
+
+If something is not working, you can see verbose output using an environment variable. For example
+if you run unit tests that use `describe-it` via `npm test`, you can see the log messages by running
+
+    DEBUG=describe npm test
 
 ### Small print
 

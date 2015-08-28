@@ -6,7 +6,12 @@ require = require('really-need');
 var signatureToName = require('./src/utils').signatureToName;
 var isVariable = require('./src/utils').isVariable;
 
-function describeIt(filename, functionSignature, cb) {
+function describeIt(filename, functionSignature, useBeforeEach, cb) {
+  if (typeof useBeforeEach === 'function') {
+    cb = useBeforeEach;
+    useBeforeEach = false;
+  }
+
   var isVar = isVariable(functionSignature);
 
   var fullSig = isVar ? functionSignature : 'function ' + functionSignature;
@@ -58,11 +63,15 @@ function describeIt(filename, functionSignature, cb) {
     }
   };
 
+  var beforeFn = useBeforeEach ? beforeEach : before;
+  var afterFn = useBeforeEach ? afterEach : after;
+  log('destroying before each unit test?', useBeforeEach);
+
   describe(functionSignature, function () {
 
     var __exports = {};
 
-    before(function () {
+    beforeFn(function () {
       global.__exports = __exports;
       log('beforeEach with __exports =', __exports);
       require(filename, options);
@@ -76,7 +85,7 @@ function describeIt(filename, functionSignature, cb) {
     log('executing describeIt callback');
     cb(returnsFn);
 
-    after(function () {
+    afterFn(function () {
       log('deleting __exports object', global.__exports);
       delete global.__exports;
     });
