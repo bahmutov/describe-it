@@ -39,7 +39,7 @@ on top of [really-need](https://github.com/bahmutov/really-need).
 // get-foo-spec.js
 // assumes BDD like Mocha
 var describeIt = require('describe-it');
-describeIt(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+describeIt(__dirname + '/get-foo.js', 'getFoo()', function (getFn) {
   it('returns "foo"', function () {
     var getFoo = getFn();
     console.assert(getFoo() === 'foo');
@@ -52,7 +52,7 @@ If you have several unit tests, just grab the function before each
 ```js
 // get-foo-spec.js
 var describeIt = require('describe-it');
-describeIt(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+describeIt(__dirname + '/get-foo.js', 'getFoo()', function (getFn) {
   var getFoo;
   beforeEach(function () {
     getFoo = getFn();
