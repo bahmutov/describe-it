@@ -64,3 +64,16 @@ desribeFunction(fooFilename, 'getFoo()', function (getFn) {
     la(this.getFoo() === 'foo');
   });
 });
+
+// using automatic assign to property
+/*
+desribeFunction(fooFilename, 'getFoo()', function () {
+  it('assigns getFoo to property', function () {
+    la(typeof this.getFoo === 'function', 'has getFoo function');
+  });
+
+  it('returns "foo"', function () {
+    la(this.getFoo() === 'foo');
+  });
+});
+*/
