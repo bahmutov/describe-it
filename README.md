@@ -66,6 +66,13 @@ describeIt(__dirname + '/get-foo.js', 'getFoo()', function (getFn) {
 });
 ```
 
+How does it work? Read [this section][how] of the blog post [Bending JavaScript rules][bending].
+In short, it installs a Node hook using [really-need](https://github.com/bahmutov/really-need)
+that extracts a reference to the desired code using code rewrite on load.
+
+[how]: http://glebbahmutov.com/blog/bending-javascript-rules/#why-nodejs-require-matters-step-7
+[bending]: http://glebbahmutov.com/blog/bending-javascript-rules/
+
 ## Unit test any named function
 
 You can extract and unit test even named functional expressions, commonly used as callbacks.
