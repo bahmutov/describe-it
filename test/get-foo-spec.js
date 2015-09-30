@@ -1,7 +1,7 @@
-var desribeFunction = require('..');
+var describeIt = require('..');
 var fooFilename = __dirname + '/foo.js';
 
-desribeFunction(fooFilename, 'getFoo()', function (getFn) {
+describeIt(fooFilename, 'getFoo()', function (getFn) {
   it('has function argument', function () {
     la(typeof getFn === 'function');
   });
@@ -17,63 +17,66 @@ desribeFunction(fooFilename, 'getFoo()', function (getFn) {
   });
 });
 
-desribeFunction(fooFilename, 'getFoo()', function (getFn) {
+describeIt(fooFilename, 'getFoo()', function (getFn) {
   it('returns "foo"', function () {
     var getFoo = getFn();
     la(getFoo() === 'foo');
   });
 });
 
-desribeFunction(fooFilename, 'getFoo()', function (getFn) {
-  var getFoo;
+describe('extracting value before each unit test', function () {
+  describeIt(fooFilename, 'getFoo()', function (getFn) {
+    var getFoo;
 
-  beforeEach(function () {
-    getFoo = getFn();
-  });
+    beforeEach(function () {
+      getFoo = getFn();
+    });
 
-  it('returns "foo"', function () {
-    la(getFoo() === 'foo');
-  });
+    it('returns "foo"', function () {
+      la(getFoo() === 'foo');
+    });
 
-  afterEach(function () {
-    la(getFn() === getFoo);
-  });
-});
-
-// storing value in 'this'
-desribeFunction(fooFilename, 'getFoo()', function (getFn) {
-  beforeEach(function () {
-    this.getFoo = getFn();
-  });
-
-  it('returns "foo"', function () {
-    la(this.getFoo() === 'foo');
+    afterEach(function () {
+      la(getFn() === getFoo);
+    });
   });
 });
 
-// using assign shortcut
-desribeFunction(fooFilename, 'getFoo()', function (getFn) {
-  function assign(property, get) {
-    this[property] = get();
-    return this[property];
-  }
+describe('storing extracted value on the context object', function () {
+  describeIt(fooFilename, 'getFoo()', function (getFn) {
+    beforeEach(function () {
+      this.getFoo = getFn();
+    });
 
-  beforeEach(assign.bind(this.ctx, 'getFoo', getFn));
-
-  it('returns "foo"', function () {
-    la(this.getFoo() === 'foo');
+    it('returns "foo"', function () {
+      la(this.getFoo() === 'foo');
+    });
   });
 });
 
-// using automatic assign to property
-/*
-desribeFunction(fooFilename, 'getFoo()', function () {
-  it('assigns getFoo to property', function () {
-    la(typeof this.getFoo === 'function', 'has getFoo function');
-  });
+describe('assign shortcut', function () {
+  describeIt(fooFilename, 'getFoo()', function (getFn) {
+    function assign(property, get) {
+      this[property] = get();
+      return this[property];
+    }
 
-  it('returns "foo"', function () {
-    la(this.getFoo() === 'foo');
+    beforeEach(assign.bind(this.ctx, 'getFoo', getFn));
+
+    it('returns "foo"', function () {
+      la(this.getFoo() === 'foo');
+    });
   });
 });
-*/
+
+describe('automatic assign to property', function () {
+  describeIt(fooFilename, 'getFoo()', function () {
+    it('assigns getFoo to property', function () {
+      la(typeof this.getFoo === 'function', 'has getFoo function');
+    });
+
+    it('returns "foo"', function () {
+      la(this.getFoo() === 'foo');
+    });
+  });
+});

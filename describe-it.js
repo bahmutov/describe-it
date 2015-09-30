@@ -83,6 +83,12 @@ function describeIt(filename, functionSignature, useBeforeEach, cb) {
     }
 
     log('executing describeIt callback');
+    if (!cb.length) {
+      log('describeIt callback does not expect arguments, using automatic property');
+      beforeEach(function () {
+        this[functionName] = returnsFn();
+      });
+    }
     cb.call(this, returnsFn);
 
     afterFn(function () {

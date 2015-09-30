@@ -120,6 +120,20 @@ Nice!
 You can see this in action in the following unit test [ggit/changed-files-spec.js][5] that
 tests pipeline of functions `stdoutToGrouped` in the file [ggit/changed-files.js][6].
 
+## Assignment shortcut
+
+You don't have to call a function to extract the value from the code. If you do not list any arguments
+in the callback function, then the value will automatically be placed onto the context object (under the
+extracted name). For example, 
+
+```js
+describeIt(fooFilename, 'getFoo()', function () {
+  it('returns "foo"', function () {
+    la(this.getFoo() === 'foo');
+  });
+});
+```
+
 ## Note for Jasmine users
 
 I am testing this library using [Mocha](http://mochajs.org/), which I [find much nicer](picking)
