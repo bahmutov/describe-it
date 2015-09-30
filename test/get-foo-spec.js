@@ -1,6 +1,7 @@
 var desribeFunction = require('..');
+var fooFilename = __dirname + '/foo.js';
 
-desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
   it('has function argument', function () {
     la(typeof getFn === 'function');
   });
@@ -16,14 +17,14 @@ desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
   });
 });
 
-desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
   it('returns "foo"', function () {
     var getFoo = getFn();
     la(getFoo() === 'foo');
   });
 });
 
-desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
   var getFoo;
 
   beforeEach(function () {
@@ -36,5 +37,30 @@ desribeFunction(__dirname + '/foo.js', 'getFoo()', function (getFn) {
 
   afterEach(function () {
     la(getFn() === getFoo);
+  });
+});
+
+// storing value in 'this'
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
+  beforeEach(function () {
+    this.getFoo = getFn();
+  });
+
+  it('returns "foo"', function () {
+    la(this.getFoo() === 'foo');
+  });
+});
+
+// using assign shortcut
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
+  function assign(property, get) {
+    this[property] = get();
+    return this[property];
+  }
+
+  beforeEach(assign.bind(this.ctx, 'getFoo', getFn));
+
+  it('returns "foo"', function () {
+    la(this.getFoo() === 'foo');
   });
 });

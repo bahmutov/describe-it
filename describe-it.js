@@ -83,7 +83,7 @@ function describeIt(filename, functionSignature, useBeforeEach, cb) {
     }
 
     log('executing describeIt callback');
-    cb(returnsFn);
+    cb.call(this, returnsFn);
 
     afterFn(function () {
       log('deleting __exports object', global.__exports);

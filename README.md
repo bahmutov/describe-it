@@ -154,6 +154,23 @@ describeIt(..., function (getFn) {
 });
 ```
 
+## Context is preserved
+
+We follow the convention and preserve the original context inside the `describeIt` callback, thus
+you can assign the extracted value to a property
+
+```js
+desribeFunction(fooFilename, 'getFoo()', function (getFn) {
+  beforeEach(function () {
+    this.getFoo = getFn();
+  });
+
+  it('returns "foo"', function () {
+    la(this.getFoo() === 'foo');
+  });
+});
+```
+
 [1]: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/
 [2]: https://github.com/jasmine/jasmine/pull/908
 [3]: http://glebbahmutov.com/blog/picking-javascript-testing-framework/
