@@ -32,6 +32,9 @@
   ],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "4.2.2"
+  },
   "bugs": {
     "url": "https://github.com/bahmutov/describe-it/issues"
   },

@@ -8,6 +8,11 @@
 [![dependencies][describe-it-dependencies-image] ][describe-it-dependencies-url]
 [![devdependencies][describe-it-devdependencies-image] ][describe-it-devdependencies-url]
 
+## Engine
+
+**Note** currently breaks after Node v4.2.2 due to `require` code changes.
+Some Node versions work, but most do not.
+
 ## Api
 
     describeIt(sourceFilename, functionSignature, useBeforeEach, testCallbacks);
@@ -131,7 +136,7 @@ tests pipeline of functions `stdoutToGrouped` in the file [ggit/changed-files.js
 
 You don't have to call a function to extract the value from the code. If you do not list any arguments
 in the callback function, then the value will automatically be placed onto the context object (under the
-extracted name). For example, 
+extracted name). For example,
 
 ```js
 describeIt(fooFilename, 'getFoo()', function () {
@@ -146,7 +151,7 @@ describeIt(fooFilename, 'getFoo()', function () {
 I am testing this library using [Mocha](http://mochajs.org/), which I [find much nicer](picking)
 to work with.
 
-Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it. 
+Jasmine has a broken `afterEach` order, see the [open pull request][2] to fix it.
 Because **describe-it** tries to behave nicely and clean up after itself, you might NOT
 have the function inside *your own afterEach blocks*.
 
@@ -154,7 +159,7 @@ have the function inside *your own afterEach blocks*.
 describeIt(..., function (getFn) {
     it(...);
     afterEach(function () {
-        var fn = getFn(); 
+        var fn = getFn();
         // Nope, fn is undefined by this time
     });
 });
@@ -196,7 +201,7 @@ desribeFunction(fooFilename, 'getFoo()', function (getFn) {
 [2]: https://github.com/jasmine/jasmine/pull/908
 [3]: http://glebbahmutov.com/blog/picking-javascript-testing-framework/
 [4]: http://glebbahmutov.com/blog/imperative-to-compose-example/
-[5]: https://github.com/bahmutov/ggit/blob/master/spec/changed-files-spec.js 
+[5]: https://github.com/bahmutov/ggit/blob/master/spec/changed-files-spec.js
 [6]: https://github.com/bahmutov/ggit/blob/master/src/changed-files.js
 
 ## For devs
